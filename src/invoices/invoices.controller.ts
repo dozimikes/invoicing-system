@@ -1,29 +1,33 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import type { Invoice, Product } from './invoices.service';
+import type { Invoice } from '../prisma/client';
 
 @Controller('invoices')
 export class InvoicesController {
-  constructor(private readonly invoicesService: InvoicesService) {}
+  constructor(private readonly invoicesService: InvoicesService) { }
 
   @Post()
-  create(@Body() createInvoiceDto: CreateInvoiceDto): Invoice {
-    return this.invoicesService.create(createInvoiceDto.clientId);
+  async create(@Body() createInvoiceDto: CreateInvoiceDto): Promise<Invoice> {
+    return this.invoicesService.create(
+      createInvoiceDto.clientId,
+      createInvoiceDto.amount,
+      createInvoiceDto.description,
+    );
   }
 
   @Get()
-  findAll(): Invoice[] {
+  async findAll(): Promise<Invoice[]> {
     return this.invoicesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Invoice {
-    return this.invoicesService.findOne(Number(id));
+  @Get('client/:clientId')
+  async findByClient(@Param('clientId') clientId: string): Promise<Invoice[]> {
+    return this.invoicesService.findByClient(Number(clientId));
   }
 
-  @Post(':id/products')
-  addProduct(@Param('id') id: string, @Body() product: Product): Invoice {
-    return this.invoicesService.addProduct(Number(id), product);
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Invoice | null> {
+    return this.invoicesService.findOne(Number(id));
   }
 }

@@ -1,27 +1,24 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ClientsService } from './clients.service';
-import type { Client } from './clients.service';
+import type { Client } from '../prisma/client';
 import { CreateClientDto } from './dto/create-client.dto';
 
 @Controller('clients')
 export class ClientsController {
-  constructor(private readonly clientsService: ClientsService) {}
+  constructor(private readonly clientsService: ClientsService) { }
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientsService.create(
-      createClientDto.name,
-      createClientDto.email,
-    );
+  async create(@Body() createClientDto: CreateClientDto): Promise<Client> {
+    return this.clientsService.create(createClientDto.name, createClientDto.email);
   }
 
   @Get()
-  findAll(): Client[] {
+  async findAll(): Promise<Client[]> {
     return this.clientsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Client | undefined {
+  async findOne(@Param('id') id: string): Promise<Client | null> {
     return this.clientsService.findOne(Number(id));
   }
 }

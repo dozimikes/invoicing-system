@@ -1,54 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-
-export interface Invoice {
-  id: number;
-  clientId: number;
-  items: Product[];
-  total: number;
-  paid: boolean;
-}
-
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import type { Invoice } from '../prisma/client';
 
 @Injectable()
 export class InvoicesService {
-  private invoices: Invoice[] = [];
-  private idCounter = 1;
+  constructor(private prisma: PrismaService) { }
 
-  create(clientId: number): Invoice {
-    const invoice: Invoice = {
-      id: this.idCounter++,
-      clientId,
-      items: [],
-      total: 0,
-      paid: false,
-    };
-    this.invoices.push(invoice);
-    return invoice;
+  async create(clientId: number, amount: number, description: string): Promise<Invoice> {
+    return this.prisma.invoice.create({
+      data: { clientId, amount, description },
+    });
   }
 
-  findAll(): Invoice[] {
-    return this.invoices;
+  async findAll(): Promise<Invoice[]> {
+    return this.prisma.invoice.findMany();
   }
 
-  findOne(id: number): Invoice {
-    const invoice = this.invoices.find((inv) => inv.id === id);
-    if (!invoice) throw new NotFoundException('Invoice not found');
-    return invoice;
+  async findOne(id: number): Promise<Invoice | null> {
+    return this.prisma.invoice.findUnique({ where: { id } });
   }
 
-  addProduct(invoiceId: number, product: Product): Invoice {
-    const invoice = this.findOne(invoiceId);
-    invoice.items.push(product);
-    invoice.total = invoice.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0,
-    );
-    return invoice;
+  async findByClient(clientId: number): Promise<Invoice[]> {
+    return this.prisma.invoice.findMany({ where: { clientId } });
   }
 }
