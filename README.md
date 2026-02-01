@@ -1,76 +1,106 @@
 # Invoicing System
 
-A simple and efficient invoicing system built with **NestJS**, **MySQL**, and **Prisma 7**. This project provides a core API for managing clients and their associated invoices.
+A full-stack invoicing system built with NestJS (backend) and Next.js (frontend).
 
-## Features
+## Project Structure
 
-- **Client Management**: Create, view, and list clients.
-- **Invoice Tracking**: Create and retrieve invoices linked to specific clients.
-- **Modern Persistence**: Uses Prisma 7 with a tailored configuration for WSL/Windows development.
-
-## Tech Stack
-
-- **Framework**: [NestJS](https://nestjs.com/)
-- **Database**: [MySQL](https://www.mysql.com/)
-- **ORM**: [Prisma 7](https://www.prisma.io/)
-- **Environment**: [Node.js](https://nodejs.org/)
+```
+invoicing-system/
+├── backend/          # NestJS backend API
+│   ├── src/          # Backend source code
+│   ├── prisma/       # Database schema and migrations
+│   └── test/         # Backend tests
+├── frontend/         # Next.js frontend application
+│   └── src/          # Frontend source code
+└── package.json      # Monorepo scripts
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v20 or higher)
-- MySQL Server
-- WSL (if developing on Windows)
+- Node.js (v18 or higher)
+- PostgreSQL database
 
-### Setup
+### Installation
 
-1. **Install Dependencies**:
+1. **Install backend dependencies:**
    ```bash
+   cd backend
    npm install
    ```
 
-2. **Configure Environment**:
-   Create a `.env` file in the root directory and add your MySQL connection string:
-   ```env
-   DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/DATABASE"
-   ```
-
-3. **Initialize Database**:
-   Push the Prisma schema to your local MySQL instance:
+2. **Install frontend dependencies:**
    ```bash
-   npx prisma db push
+   cd frontend
+   npm install
    ```
 
-4. **Generate Prisma Client**:
+3. **Set up environment variables:**
+   - Copy `.env.example` to `.env` in the backend directory
+   - Configure your database connection and other settings
+
+4. **Run database migrations:**
    ```bash
-   npx prisma generate
+   npm run prisma:migrate
    ```
 
-## Running the App
+### Development
 
+Run backend and frontend in separate terminals:
+
+**Backend:**
 ```bash
-# Development (watch mode)
-npm run start:dev
-
-# Production
-npm run build
-npm run start:prod
+npm run backend:dev
+# or: cd backend && npm run start:dev
 ```
 
-## API Endpoints
+**Frontend:**
+```bash
+npm run frontend:dev
+# or: cd frontend && npm run dev
+```
 
-### Clients
-- `POST /clients` - Create a new client.
-- `GET /clients` - List all clients.
-- `GET /clients/:id` - Get client details.
+### Building for Production
 
-### Invoices
-- `POST /invoices` - Create a new invoice.
-- `GET /invoices` - List all invoices.
-- `GET /invoices/:id` - Get invoice details.
-- `GET /invoices/client/:clientId` - List invoices for a specific client.
+**Build both:**
+```bash
+npm run build
+```
+
+**Build individually:**
+```bash
+npm run backend:build
+npm run frontend:build
+```
+
+### Available Scripts
+
+From the root directory:
+
+- `npm run backend:dev` - Start backend development server
+- `npm run backend:build` - Build backend for production
+- `npm run frontend:dev` - Start frontend development server
+- `npm run frontend:build` - Build frontend for production
+- `npm run build` - Build both backend and frontend
+- `npm run prisma:generate` - Generate Prisma client
+- `npm run prisma:migrate` - Run database migrations
+- `npm run prisma:studio` - Open Prisma Studio
+
+## Technology Stack
+
+**Backend:**
+- NestJS
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+
+**Frontend:**
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
 
 ## License
 
-MIT
+UNLICENSED
