@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards } from '@n
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import type { Invoice } from '../prisma/client';
+import type { Invoice } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)

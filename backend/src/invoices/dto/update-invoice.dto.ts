@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsPositive, IsString, IsEnum } from 'class-validator';
-import { InvoiceStatus } from '../../prisma/client';
+import { InvoiceStatus } from '@prisma/client';
 
 export class UpdateInvoiceDto {
     @IsOptional()

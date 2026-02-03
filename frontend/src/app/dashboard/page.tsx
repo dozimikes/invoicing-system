@@ -32,7 +32,7 @@ export default function Dashboard() {
                 setStats([
                     {
                         name: "Total Revenue",
-                        value: `$${totalRevenue.toLocaleString()}`,
+                        value: `₦${totalRevenue.toLocaleString()}`,
                         change: "+0%",
                         trend: "up"
                     },

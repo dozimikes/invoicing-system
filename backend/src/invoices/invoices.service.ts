@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import type { Invoice } from '../prisma/client';
+import type { Invoice, InvoiceStatus } from '@prisma/client';
 
 @Injectable()
 export class InvoicesService {
@@ -13,11 +13,17 @@ export class InvoicesService {
   }
 
   async findAll(): Promise<Invoice[]> {
-    return this.prisma.invoice.findMany();
+    return this.prisma.invoice.findMany({
+      include: { client: true },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
   async findOne(id: number): Promise<Invoice | null> {
-    const invoice = await this.prisma.invoice.findUnique({ where: { id } });
+    const invoice = await this.prisma.invoice.findUnique({
+      where: { id },
+      include: { client: true },
+    });
     if (!invoice) {
       throw new NotFoundException(`Invoice with ID ${id} not found`);
     }
@@ -28,7 +34,7 @@ export class InvoicesService {
     return this.prisma.invoice.findMany({ where: { clientId } });
   }
 
-  async update(id: number, data: { amount?: number; description?: string }): Promise<Invoice> {
+  async update(id: number, data: { amount?: number; description?: string; status?: InvoiceStatus }): Promise<Invoice> {
     try {
       return await this.prisma.invoice.update({
         where: { id },

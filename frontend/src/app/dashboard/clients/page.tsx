@@ -9,6 +9,7 @@ export default function ClientsPage() {
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
 
     const fetchClients = async () => {
         try {
@@ -27,14 +28,18 @@ export default function ClientsPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
         try {
             await api.post("/clients", { name, email });
             setName("");
             setEmail("");
             setShowForm(false);
             fetchClients();
-        } catch (err) {
-            alert("Failed to create client");
+        } catch (err: any) {
+            const errorMessage = err.response?.data?.message ||
+                err.response?.data?.error ||
+                "Failed to create client. Please try again.";
+            setError(errorMessage);
         }
     };
 
@@ -65,6 +70,16 @@ export default function ClientsPage() {
 
             {showForm && (
                 <div className="rounded-3xl border border-blue-100 bg-blue-50/30 p-8 shadow-sm animate-in fade-in slide-in-from-top-4 duration-300">
+                    {error && (
+                        <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4 rounded-xl">
+                            <div className="flex">
+                                <div className="flex-shrink-0 text-red-400">⚠️</div>
+                                <div className="ml-3">
+                                    <p className="text-sm text-red-700">{error}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Client Name</label>

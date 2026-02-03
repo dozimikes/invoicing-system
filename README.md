@@ -1,6 +1,23 @@
 # Invoicing System
 
-A full-stack invoicing system built with NestJS (backend) and Next.js (frontend).
+A professional full-stack invoicing system designed for seamless client and invoice management, tailored for the Nigerian market with Naira (₦) currency support.
+
+**Author:** [Chukwuedozie Chineke](https://github.com/dozimikes)
+
+## Features
+
+- **User Authentication**: Secure JWT-based login and registration system.
+- **Client Management**: 
+  - Create and track client profiles.
+  - Improved error handling for duplicate email constraints.
+  - Quick access to client billing history.
+- **Invoice Management**:
+  - Professional invoice generation with unique IDs.
+  - **Naira (₦) Currency Support**: Fully local currency integration across all screens.
+  - **Dynamic Status Tracking**: Transition invoices through DRAFT, SENT, PAID, and CANCELLED states.
+  - **Professional Summary**: Modern, professional modal view for detailed invoice summaries.
+  - **Print to PDF**: Generate clean, professional PDF documents directly from the browser with specialized print-only styles.
+- **Dashboard**: Real-time business insights including Total Revenue (₦), Pending Invoices, and Active Client counts.
 
 ## Project Structure
 
@@ -8,19 +25,33 @@ A full-stack invoicing system built with NestJS (backend) and Next.js (frontend)
 invoicing-system/
 ├── backend/          # NestJS backend API
 │   ├── src/          # Backend source code
-│   ├── prisma/       # Database schema and migrations
+│   ├── prisma/       # Database schema (MySQL)
 │   └── test/         # Backend tests
-├── frontend/         # Next.js frontend application
+├── frontend/         # Next.js frontend application (App Router)
 │   └── src/          # Frontend source code
 └── package.json      # Monorepo scripts
 ```
+
+## Technology Stack
+
+**Backend:**
+- **NestJS**: Scalable server-side framework.
+- **Prisma ORM**: Modern database access layer.
+- **MySQL**: Relational database for data persistence.
+- **JWT / Passport**: Secure authentication strategy.
+
+**Frontend:**
+- **Next.js 15**: Modern React framework with App Router.
+- **React 19**: Interactive user interface components.
+- **TypeScript**: Static typing for robust code.
+- **Tailwind CSS**: Utility-first styling for premium design aesthetics.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- PostgreSQL database
+- **Node.js**: v18 or higher.
+- **MySQL**: Running instance (v8.0+ recommended).
 
 ### Installation
 
@@ -37,69 +68,37 @@ invoicing-system/
    ```
 
 3. **Set up environment variables:**
-   - Copy `.env.example` to `.env` in the backend directory
-   - Configure your database connection and other settings
+   - Configure `.env` in the root and backend directories with your `DATABASE_URL` (MySQL) and `JWT_SECRET`.
 
-4. **Run database migrations:**
+4. **Initialize Database:**
    ```bash
-   npm run prisma:migrate
+   cd backend
+   npx prisma generate
+   npx prisma db push
    ```
 
-### Development
+### Running Locally
 
 Run backend and frontend in separate terminals:
 
-**Backend:**
+**Backend (Port 3000):**
 ```bash
-npm run backend:dev
-# or: cd backend && npm run start:dev
+cd backend
+npm run start:dev
 ```
 
-**Frontend:**
+**Frontend (Port 3001):**
 ```bash
-npm run frontend:dev
-# or: cd frontend && npm run dev
+cd frontend
+npm run dev
 ```
 
-### Building for Production
+## Building for Production
 
-**Build both:**
+**Build all:**
 ```bash
 npm run build
 ```
-
-**Build individually:**
-```bash
-npm run backend:build
-npm run frontend:build
-```
-
-### Available Scripts
-
-From the root directory:
-
-- `npm run backend:dev` - Start backend development server
-- `npm run backend:build` - Build backend for production
-- `npm run frontend:dev` - Start frontend development server
-- `npm run frontend:build` - Build frontend for production
-- `npm run build` - Build both backend and frontend
-- `npm run prisma:generate` - Generate Prisma client
-- `npm run prisma:migrate` - Run database migrations
-- `npm run prisma:studio` - Open Prisma Studio
-
-## Technology Stack
-
-**Backend:**
-- NestJS
-- Prisma ORM
-- PostgreSQL
-- JWT Authentication
-
-**Frontend:**
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS
 
 ## License
 

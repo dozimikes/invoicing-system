@@ -1,4 +1,4 @@
-import { InvoiceStatus } from '@prisma/client-custom';
+import { InvoiceStatus } from '@prisma/client';
 import { Client } from '../../clients/entities/client.entity';
 
 export class Invoice {

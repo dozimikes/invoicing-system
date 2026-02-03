@@ -21,11 +21,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@prisma/client-custom": [
-        "./src/prisma/client/index.d.ts"
-      ]
-    }
+    "paths": {}
   },
   "exclude": [
     "node_modules",

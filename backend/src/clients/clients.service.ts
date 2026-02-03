@@ -1,15 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import type { Client } from '../prisma/client';
+import type { Client } from '@prisma/client';
 
 @Injectable()
 export class ClientsService {
   constructor(private prisma: PrismaService) { }
 
   async create(name: string, email: string): Promise<Client> {
-    return this.prisma.client.create({
-      data: { name, email },
-    });
+    try {
+      return await this.prisma.client.create({
+        data: { name, email },
+      });
+    } catch (error: any) {
+      // Prisma unique constraint violation error code
+      if (error.code === 'P2002') {
+        throw new ConflictException('A client with this email already exists');
+      }
+      throw error;
+    }
   }
 
   async findAll(): Promise<Client[]> {

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards } from '@nestjs/common';
 import { ClientsService } from './clients.service';
-import type { Client } from '../prisma/client';
+import type { Client } from '@prisma/client';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
